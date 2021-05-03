@@ -14,6 +14,18 @@ class ContactController extends Controller
         return view('contact.index', $data);
     }
 
+    public function search(Request $request)
+    {
+        $data = $request -> input('search');
+        $query = Contact::select()
+        ->where('Name','like',"%$data%")
+        ->orwhere('Phone','like',"%$data%")
+        ->orwhere('Email','like',"%$data%")
+        ->get();
+
+        return view('contact.index') ->with(["contacts" => $query]);
+    }
+
 
     public function create()
     {
@@ -23,7 +35,11 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
-        //
+        // $data= $request->all();
+        $data= $request->except('_token');
+        Contact::insert($data);
+        return redirect()->route('contact.index');
+
     }
 
 
@@ -33,20 +49,24 @@ class ContactController extends Controller
     }
 
 
-    public function edit(Contact $contact)
+    public function edit($id)
     {
-        return view('contact.edit');
+        $data = Contact::findorfail($id);
+        return view('contact.edit')->with(['contact' => $data]);
     }
 
 
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, $id)
     {
-        //
+        $data= $request->except('_token', '_method');
+        Contact::where('id','=',$id)->update($data);
+        return redirect()->route('contact.index');
     }
 
 
-    public function destroy(Contact $contact)
+    public function destroy($id)
     {
-        //
+        Contact::destroy($id);
+        return redirect()->route('contact.index');
     }
 }

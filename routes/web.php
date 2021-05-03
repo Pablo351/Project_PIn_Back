@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home.home');
-});
+})->name('home');
 
 Route::resource('contact', 'ContactController');
+
+Route::group(['prefix' => 'contact'], function(){
+ Route::post('search', 'ContactController@search') -> name('contact.search');
+});
+
