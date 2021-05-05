@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
 {
@@ -35,10 +36,28 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
-        // $data= $request->all();
         $data= $request->except('_token');
         Contact::insert($data);
+        Session::flash('alert-Success', 'Se ha creado con exito!!');
         return redirect()->route('contact.index');
+
+    }
+
+    public function list()
+    {
+        $data = Contact::all();
+        return response()->json($data, 200);
+    }
+
+    public function save(Request $request)
+    {
+        $contact = new Contact;
+        $contact->name  = $request->name;
+        $contact->email  = $request->mail;
+        $contact->phone  = $request->phone;
+        $contact->message  = $request->messaje;
+        $contact->save();
+        return response()->json("La informacion se guardo con exito", 201);
 
     }
 
@@ -52,6 +71,7 @@ class ContactController extends Controller
     public function edit($id)
     {
         $data = Contact::findorfail($id);
+        Session::flash('alert-Success', 'Se ha Editado con exito!!');
         return view('contact.edit')->with(['contact' => $data]);
     }
 
@@ -60,6 +80,7 @@ class ContactController extends Controller
     {
         $data= $request->except('_token', '_method');
         Contact::where('id','=',$id)->update($data);
+        Session::flash('alert-Success', 'Se ha actualizado con exito!!');
         return redirect()->route('contact.index');
     }
 
@@ -67,6 +88,7 @@ class ContactController extends Controller
     public function destroy($id)
     {
         Contact::destroy($id);
+        Session::flash('alert-Success', 'Se ha eliminado con exito!!');
         return redirect()->route('contact.index');
     }
 }
