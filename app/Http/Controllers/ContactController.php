@@ -3,11 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\Mail\sendContact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+
+/**
+ * @OA\Info(title="MAL-MED", version="0.1")
+ *
+ * @OA\Server(url="http://localhost:8000")
+ **/
 
 class ContactController extends Controller
 {
+
+/**
+ * @OA\Post(
+ *      path="/api/contact/save",
+ *      summary="Guardar datos de contacto",
+ *      @OA\RequestBody(
+ *          @OA\MediaType(
+ *              mediaType="application/json",
+ *              @OA\Schema(
+ *                  @OA\Property(
+ *                      property="name",
+ *                      type="text"
+ *                  ),
+ *                  @OA\Property(
+ *                      property="mail",
+ *                      type="text"
+ *                  ),
+ *                  @OA\Property(
+ *                      property="phone",
+ *                      type="text"
+ *                    ),
+ *                  @OA\Property(
+ *                      property="messaje",
+ *                      type="text"
+ *                    ),
+ *                   example={"name": "Pablo", "mail": "paex94@gmail.com","phone": "+54 9 351 370000", "messaje":"Test de envio de email"}
+ *                  )
+ *              )
+ *          ),
+ *          @OA\Response(
+ *              response=200,
+ *              description="OK"
+ *          )
+ *      )
+ */
 
     public function index()
     {
@@ -51,12 +94,19 @@ class ContactController extends Controller
 
     public function save(Request $request)
     {
-        $contact = new Contact;
-        $contact->name  = $request->name;
-        $contact->email  = $request->mail;
-        $contact->phone  = $request->phone;
-        $contact->message  = $request->messaje;
-        $contact->save();
+        try {
+            $contact = new Contact;
+            $contact->name  = $request->name;
+            $contact->email  = $request->mail;
+            $contact->phone  = $request->phone;
+            $contact->message  = $request->messaje;
+            Mail:: to($contact->email)->send(new SendContact($contact));
+            $contact->save();
+        } catch (\exception $e) {
+            return response()->json("No se puedo enviar por un error: {$e->getMessage()}", 404);
+        }
+
+
         return response()->json("La informacion se guardo con exito", 201);
 
     }
