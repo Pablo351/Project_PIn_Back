@@ -7,7 +7,7 @@
     <title>MENSAJE RECIBIDO</title>
 </head>
 <body>
-    <p>Hola! {{$contatact->name}}</p>
+    <p>Hola! {{$contact->name}}</p>
     <p>Gracias por comunicarte con nosotros</p>
     <p></p>
 
