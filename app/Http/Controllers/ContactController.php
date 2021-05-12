@@ -58,6 +58,17 @@ class ContactController extends Controller
         return view('contact.index', $data);
     }
 
+
+    // public function search(Request $request)
+    // {
+    //     $data = $request -> input('search');
+    //     $query = Contact::select()
+    //     ->where('Name','like',"%$data%")
+    //     ->orwhere('Phone','like',"%$data%")
+    //     ->orwhere('Email','like',"%$data%")
+    //     ->get();
+
+
     public function search(Request $request)
     {
         $data = $request -> input('search');

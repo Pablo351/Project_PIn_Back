@@ -23,3 +23,10 @@ Route::group(['prefix' => 'contact'], function(){
  Route::post('search', 'ContactController@search') -> name('contact.search');
 });
 
+ Route::resource('contact', 'ContactController');
+
+ Route::group(['prefix' => 'contact'], function(){
+  Route::post('search', 'ContactController@search') -> name('contact.search');
+ });
+
+
