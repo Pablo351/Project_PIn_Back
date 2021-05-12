@@ -59,16 +59,6 @@ class ContactController extends Controller
     }
 
 
-    // public function search(Request $request)
-    // {
-    //     $data = $request -> input('search');
-    //     $query = Contact::select()
-    //     ->where('Name','like',"%$data%")
-    //     ->orwhere('Phone','like',"%$data%")
-    //     ->orwhere('Email','like',"%$data%")
-    //     ->get();
-
-
     public function search(Request $request)
     {
         $data = $request -> input('search');
@@ -80,7 +70,6 @@ class ContactController extends Controller
 
         return view('contact.index') ->with(["contacts" => $query]);
     }
-
 
     public function create()
     {
@@ -129,12 +118,13 @@ class ContactController extends Controller
     }
 
 
-    public function edit($id)
-    {
-        $data = Contact::findorfail($id);
-        Session::flash('alert-Success', 'Se ha Editado con exito!!');
-        return view('contact.edit')->with(['contact' => $data]);
-    }
+     public function edit($id)
+     {
+         $data = Contact::findorfail($id);
+         Session::flash('alert-Success', 'Se ha Editado con exito!!');
+         return view('contact.edit')->with(['contact' => $data]);
+     }
+
 
 
     public function update(Request $request, $id)
