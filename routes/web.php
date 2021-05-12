@@ -29,9 +29,5 @@ Route::group(['prefix' => 'contact'], function(){
   Route::post('search', 'ContactController@search') -> name('contact.search');
  });
 
- Route::group(['prefix' => 'contact'], function (){
-    Route::get('list', 'ContactController@list');
-    Route::post('save', 'ContactController@save');
-});
 
 
