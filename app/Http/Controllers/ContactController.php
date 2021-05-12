@@ -52,11 +52,11 @@ class ContactController extends Controller
  *      )
  */
 
-    // public function index()
-    // {
-    //     $data['contacts'] = Contact::paginate(10);
-    //     return view('contact.index', $data);
-    // }
+    public function index()
+    {
+        $data['contacts'] = Contact::paginate(10);
+        return view('contact.index', $data);
+    }
 
     // public function search(Request $request)
     // {
