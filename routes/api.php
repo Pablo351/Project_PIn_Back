@@ -20,6 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'contact'], function (){
-    Route::get('list', 'ContactController@list');
+    //Route::get('list', 'ContactController@list');
     Route::post('save', 'ContactController@save');
 });
