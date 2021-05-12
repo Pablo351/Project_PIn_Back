@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 /**
  * @OA\Info(title="MAL-MED", version="0.1")
  *
- * @OA\Server(url="http://localhost:8000")
+ *
  **/
 
 class ContactController extends Controller
@@ -103,13 +103,13 @@ class ContactController extends Controller
             $contact->phone  = $request->phone;
             $contact->message  = $request->message;
 
-            try {
-                Mail:: to($request->email)->send(new SendContact($contact));
-                $contact->send_email = "se envio el email correctamente";
+                try {
+                    Mail:: to($request->email)->send(new SendContact($contact));
+                    $contact->send_email = "se envio el email correctamente";
 
-            } catch (\exception $e) {
-               $contact->send_email = "fallo el envio del mail: {$e->getMessage()}";
-            }
+                } catch (\exception $e) {
+                $contact->send_email = "fallo el envio del mail: {$e->getMessage()}";
+                }
 
             $contact->save();
 
