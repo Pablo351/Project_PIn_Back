@@ -17,40 +17,7 @@ use Illuminate\Support\Facades\Session;
 class ContactController extends Controller
 {
 
-/**
- * @OA\Post(
- *      path="/api/contact/save",
- *      summary="Guardar datos de contacto",
- *      @OA\RequestBody(
- *          @OA\MediaType(
- *              mediaType="application/json",
- *              @OA\Schema(
- *                  @OA\Property(
- *                      property="name",
- *                      type="text"
- *                  ),
- *                  @OA\Property(
- *                      property="email",
- *                      type="text"
- *                  ),
- *                  @OA\Property(
- *                      property="phone",
- *                      type="text"
- *                    ),
- *                  @OA\Property(
- *                      property="message",
- *                      type="text"
- *                    ),
- *                   example={"name": "Pablo", "mail": "paex94@gmail.com","phone": "+54 9 351 370000", "messaje":"Test de envio de email"}
- *                  )
- *              )
- *          ),
- *          @OA\Response(
- *              response=200,
- *              description="OK"
- *          )
- *      )
- */
+
 
     public function index()
     {
@@ -91,6 +58,41 @@ class ContactController extends Controller
         $data = Contact::all();
         return response()->json($data, 200);
     }
+
+    /**
+ * @OA\Post(
+ *      path="/api/contact/save",
+ *      summary="Guardar datos de contacto",
+ *      @OA\RequestBody(
+ *          @OA\MediaType(
+ *              mediaType="application/json",
+ *              @OA\Schema(
+ *                  @OA\Property(
+ *                      property="name",
+ *                      type="text"
+ *                  ),
+ *                  @OA\Property(
+ *                      property="email",
+ *                      type="text"
+ *                  ),
+ *                  @OA\Property(
+ *                      property="phone",
+ *                      type="text"
+ *                    ),
+ *                  @OA\Property(
+ *                      property="message",
+ *                      type="text"
+ *                    ),
+ *                   example={"name": "Pablo", "mail": "paex94@gmail.com","phone": "+54 9 351 370000", "messaje":"Test de envio de email"}
+ *                  )
+ *              )
+ *          ),
+ *          @OA\Response(
+ *              response=200,
+ *              description="OK"
+ *          )
+ *      )
+ */
 
     public function save(Request $request)
     {
