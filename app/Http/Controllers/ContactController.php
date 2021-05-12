@@ -30,7 +30,7 @@ class ContactController extends Controller
  *                      type="text"
  *                  ),
  *                  @OA\Property(
- *                      property="mail",
+ *                      property="email",
  *                      type="text"
  *                  ),
  *                  @OA\Property(
@@ -38,7 +38,7 @@ class ContactController extends Controller
  *                      type="text"
  *                    ),
  *                  @OA\Property(
- *                      property="messaje",
+ *                      property="message",
  *                      type="text"
  *                    ),
  *                   example={"name": "Pablo", "mail": "paex94@gmail.com","phone": "+54 9 351 370000", "messaje":"Test de envio de email"}
@@ -52,39 +52,39 @@ class ContactController extends Controller
  *      )
  */
 
-    // public function index()
-    // {
-    //     $data['contacts'] = Contact::paginate(10);
-    //     return view('contact.index', $data);
-    // }
+    public function index()
+    {
+        $data['contacts'] = Contact::paginate(10);
+        return view('contact.index', $data);
+    }
 
-    // public function search(Request $request)
-    // {
-    //     $data = $request -> input('search');
-    //     $query = Contact::select()
-    //     ->where('Name','like',"%$data%")
-    //     ->orwhere('Phone','like',"%$data%")
-    //     ->orwhere('Email','like',"%$data%")
-    //     ->get();
+    public function search(Request $request)
+    {
+        $data = $request -> input('search');
+        $query = Contact::select()
+        ->where('Name','like',"%$data%")
+        ->orwhere('Phone','like',"%$data%")
+        ->orwhere('Email','like',"%$data%")
+        ->get();
 
-    //     return view('contact.index') ->with(["contacts" => $query]);
-    // }
-
-
-    // public function create()
-    // {
-    //     return view('contact.create');
-    // }
+        return view('contact.index') ->with(["contacts" => $query]);
+    }
 
 
-    // public function store(Request $request)
-    // {
-    //     $data= $request->except('_token');
-    //     Contact::insert($data);
-    //     Session::flash('alert-Success', 'Se ha creado con exito!!');
-    //     return redirect()->route('contact.index');
+    public function create()
+    {
+        return view('contact.create');
+    }
 
-    // }
+
+    public function store(Request $request)
+    {
+        $data= $request->except('_token');
+        Contact::insert($data);
+        Session::flash('alert-Success', 'Se ha creado con exito!!');
+        return redirect()->route('contact.index');
+
+    }
 
     public function list()
     {
@@ -97,9 +97,9 @@ class ContactController extends Controller
         try {
             $contact = new Contact;
             $contact->name  = $request->name;
-            $contact->email  = $request->mail;
+            $contact->email  = $request->email;
             $contact->phone  = $request->phone;
-            $contact->message  = $request->messaje;
+            $contact->message  = $request->message;
             Mail:: to($contact->email)->send(new SendContact($contact));
             $contact->save();
         } catch (\exception $e) {
@@ -118,27 +118,27 @@ class ContactController extends Controller
     }
 
 
-    // public function edit($id)
-    // {
-    //     $data = Contact::findorfail($id);
-    //     Session::flash('alert-Success', 'Se ha Editado con exito!!');
-    //     return view('contact.edit')->with(['contact' => $data]);
-    // }
+    public function edit($id)
+    {
+        $data = Contact::findorfail($id);
+        Session::flash('alert-Success', 'Se ha Editado con exito!!');
+        return view('contact.edit')->with(['contact' => $data]);
+    }
 
 
-    // public function update(Request $request, $id)
-    // {
-    //     $data= $request->except('_token', '_method');
-    //     Contact::where('id','=',$id)->update($data);
-    //     Session::flash('alert-Success', 'Se ha actualizado con exito!!');
-    //     return redirect()->route('contact.index');
-    // }
+    public function update(Request $request, $id)
+    {
+        $data= $request->except('_token', '_method');
+        Contact::where('id','=',$id)->update($data);
+        Session::flash('alert-Success', 'Se ha actualizado con exito!!');
+        return redirect()->route('contact.index');
+    }
 
 
-    // public function destroy($id)
-    // {
-    //     Contact::destroy($id);
-    //     Session::flash('alert-Success', 'Se ha eliminado con exito!!');
-    //     return redirect()->route('contact.index');
-    // }
+    public function destroy($id)
+    {
+        Contact::destroy($id);
+        Session::flash('alert-Success', 'Se ha eliminado con exito!!');
+        return redirect()->route('contact.index');
+    }
 }
