@@ -105,10 +105,9 @@ class ContactController extends Controller
 
                 try {
                     Mail:: to($request->email)->send(new SendContact($contact));
-                    $contact->send_email = "se envio el email correctamente";
 
                 } catch (\exception $e) {
-                $contact->send_email = "fallo el envio del mail: {$e->getMessage()}";
+                    return response()->json("No se puedo enviar el mail por un error: {$e->getMessage()}", 404);
                 }
 
             $contact->save();
